@@ -1,0 +1,21 @@
+on:
+  push:
+
+jobs:
+  verify-build:
+    runs-on: ubuntu-latest
+    name: Build and verify
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: add-labeled-issues
+      - name: Build
+        run: npm run build
+        working-directory: add-labeled-issues
+      - name: Lint
+        run: npm run lint
+        working-directory: add-labeled-issues
+
