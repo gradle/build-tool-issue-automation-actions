@@ -5,7 +5,7 @@ on:
     types: [opened, labeled]
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GH_ORG_BOARD_ACCESS_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.BOT_GRADLE_GH_ORG_BOARD_ACCESS_TOKEN }}
 jobs:
   add_to_gh_projects:
     runs-on: ubuntu-latest
