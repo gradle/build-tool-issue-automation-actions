@@ -1,0 +1,5 @@
+name: 'Add labeled issues to projects'
+description: 'Adds issues to projects depending on the label'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
