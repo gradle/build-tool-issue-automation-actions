@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const {Octokit} = require('@octokit/action');
+const process = require('process');
 
 const octokit = new Octokit();
 
@@ -49,12 +50,16 @@ async function addToBoardGraphQl(projectId, nodeId) {
 }
 
 async function addToBoard(issueData, boardNumber) {
-  console.log(`Adding #${issueData.number} to board ${boardNumber}`);
+  core.info(`Adding #${issueData.number} to board ${boardNumber}`);
   const projectId = await queryProjectId(boardNumber);
   addToBoardGraphQl(projectId, issueData.id);
 }
 
 try {
+  if (!process.env.GITHUB_TOKEN) {
+    core.notice('Github token not set - skipping action');
+    return;
+  }
   const payload = github.context.payload;
   const issueData = [payload.pull_request, payload.issue]
       .filter(it => it != null)
