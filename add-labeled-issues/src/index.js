@@ -3,6 +3,11 @@ const github = require('@actions/github');
 const {Octokit} = require('@octokit/action');
 const process = require('process');
 
+if (!process.env.GITHUB_TOKEN) {
+  core.notice('Github token not set - skipping action');
+  return;
+}
+
 const octokit = new Octokit();
 
 const labelToBoard = {
@@ -56,10 +61,6 @@ async function addToBoard(issueData, boardNumber) {
 }
 
 try {
-  if (!process.env.GITHUB_TOKEN) {
-    core.notice('Github token not set - skipping action');
-    return;
-  }
   const payload = github.context.payload;
   const issueData = [payload.pull_request, payload.issue]
       .filter(it => it != null)
