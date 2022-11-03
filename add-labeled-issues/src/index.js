@@ -27,7 +27,7 @@ async function queryProjectId(projectNumber) {
   const result = await octokit.graphql(`
     query($org: String!, $number: Int!) {
         organization(login: $org){
-          projectNext(number: $number) {
+          projectV2(number: $number) {
             id
           }
         }
@@ -36,14 +36,14 @@ async function queryProjectId(projectNumber) {
     org: 'gradle',
     number: projectNumber,
   });
-  return result.organization.projectNext.id;
+  return result.organization.projectV2.id;
 }
 
 async function addToBoardGraphQl(projectId, nodeId) {
   await octokit.graphql(`
     mutation($project:ID!, $node:ID!) {
-        addProjectNextItem(input: {projectId: $project, contentId: $node}) {
-          projectNextItem {
+        addProjectV2ItemById(input: {projectId: $project, contentId: $node}) {
+          item {
             id
           }
         }
